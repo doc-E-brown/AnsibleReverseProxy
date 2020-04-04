@@ -1,0 +1,41 @@
+- name: Update aptitude
+  apt:
+    upgrade: full
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: Copy nginx.conf
+  copy:
+    src: "nginx.conf"
+    dest: "/etc/nginx/nginx.conf"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: Copy proxy parameters
+  copy:
+    src: "proxy_params"
+    dest: "/etc/nginx/proxy_params"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: Copr proxy config
+  copy:
+    src: "default"
+    dest: "/etc/nginx/sites-enabled/default"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: Restart nginx
+  systemd:
+    name: "nginx"
+    state: restarted
+    enabled: yes

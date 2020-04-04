@@ -1,0 +1,34 @@
+- name: bind9.conf.options
+  copy:
+    src: "named.conf.options"
+    dest: "/etc/bind/named.conf.options"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: Add zones
+  file:
+    path: "/etc/bind/zones"
+    state: directory
+
+- name: bind9 zones
+  copy:
+    src: "db.nyc3.example.com"
+    dest: "/etc/bind/zones/db.nyc3.example.com"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: bind9 zones ip
+  copy:
+    src: "db.71.167"
+    dest: "/etc/bind/zones/db.71.167"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: Restart bind9 server
+  systemd:
+    name: "bind9"
+    state: restarted
+    enabled: yes

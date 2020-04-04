@@ -1,0 +1,17 @@
+- hosts: dns_server
+
+  tasks:
+    - import_role:
+        name: dns_server
+
+- hosts: dns_page
+
+  tasks:
+    - import_role:
+        name: dns_page
+
+- hosts: proxy
+
+  tasks:
+    - import_role:
+        name: proxy

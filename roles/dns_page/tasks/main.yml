@@ -1,0 +1,11 @@
+- name: Update aptitude
+  apt:
+    upgrade: full
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present

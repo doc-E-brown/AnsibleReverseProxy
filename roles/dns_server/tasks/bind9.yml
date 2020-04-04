@@ -1,0 +1,44 @@
+- name: Update aptitude
+  apt:
+    upgrade: full
+    update_cache: yes
+    autoclean: yes
+    autoremove: yes
+
+- name: Install bind9
+  apt:
+    name: bind9
+    state: present
+
+- name: Install bind9utils
+  apt:
+    name: bind9utils
+    state: present
+
+- name: Replace options
+  replace:
+    path: /etc/default/bind9
+    regexp: OPTIONS="-u bind"
+    replace: OPTIONS="-u bind -4"
+
+- name: bind9.conf.options
+  copy:
+    src: "named.conf.options"
+    dest: "/etc/bind/named.conf.options"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: bind9.conf.local
+  copy:
+    src: "named.conf.local"
+    dest: "/etc/bind/named.conf.local"
+    group: "root"
+    owner: "root"
+    force: true
+
+- name: Restart bind9 server
+  systemd:
+    name: "bind9"
+    state: restarted
+    enabled: yes
